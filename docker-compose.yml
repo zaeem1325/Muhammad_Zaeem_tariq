@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  stress-app:
+    build: .
+    container_name: stress_container
+
+    deploy: {}  # optional
+
+    command: ["python", "stress_test.py", "--cpu", "1", "--mem", "0.7", "--time", "80"]
+
+    # These work in normal Docker Compose
+    cpus: "1.0"
+    mem_limit: 0.5g
