@@ -1,0 +1,269 @@
+#Docker Stress Test Project – Instruction Manual
+
+
+
+#Purpose of This Guide
+
+This manual is designed for:
+
+#Scenario 1: User wants to run project in isolation
+Run your Python stress script safely inside a container without affecting your main system.
+
+#Scenario 2: Client wants controlled stress system test
+Run stress tests with **limited CPU and memory** for controlled performance analysis.
+
+---
+
+#Step 1: Download & Setup Docker Desktop (Windows)
+
+#Installation Steps
+
+* Download Docker Desktop using a browser (e.g., Chrome)
+* Run the installer and complete installation
+* Enable **WSL (Windows Subsystem for Linux)** during setup
+
+#Integration Steps
+
+* Copy integration command provided by Docker Desktop
+* Open **Command Prompt (CMD)**
+* Paste and run the command
+* Restart or refresh Docker Desktop
+
+Docker Desktop is now ready to use with your system and terminal
+
+---
+
+#Step 2: Create Project Files
+
+Create a folder on Desktop:
+
+```
+stress_project
+```
+
+Inside this folder, create **3 files**:
+
+---
+
+## 📄 1. Dockerfile
+
+This file contains instructions to build your Docker image
+
+```
+FROM python:3.11
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "stress_test.py"]
+```
+
+---
+
+##2. requirements.txt
+
+Add required Python libraries (example):
+
+```
+psutil
+numpy
+pyopencl
+```
+
+---
+
+#3. stress_test.py
+
+Your stress testing script
+
+---
+
+#Final Folder Structure
+
+```
+stress_project/
+│── Dockerfile
+│── requirements.txt
+│── stress_test.py
+```
+
+---
+
+#Step 3: Build Docker Image
+
+Open CMD and run:
+
+```
+cd Desktop
+cd stress_project
+```
+
+Now build image:
+
+```
+docker build -t python-stress-app .
+```
+
+This creates your Docker image
+
+---
+
+#Step 4: Run Container
+
+##For Normal Run
+
+```
+docker run python-stress-app
+```
+
+---
+
+#Run with Limited Resources
+
+```
+docker run --cpus=1 --memory=512m python-stress-app
+```
+
+✅ This will:
+
+* Use only **1 CPU core**
+* Use only **512MB RAM**
+
+---
+
+#Step 5: Advanced Configuration Using YAML (Docker Compose)
+
+Create a new folder:
+
+```
+stress_project_configured
+```
+
+Copy all previous files into it, and add:
+
+---
+
+#configuration.yml (docker-compose.yml)
+
+```
+NOTE:You can modify you Resources as per your requirements in this file 
+
+```
+#Final Structure
+
+```
+stress_project_configured/
+│── Dockerfile
+│── requirements.txt
+│── stress_test.py
+│── docker-compose.yml
+
+```
+# Step 6: Build & Run Using Compose
+
+Open CMD:
+
+```
+cd Desktop
+cd stress_project_configured
+```
+
+##Build and run:
+
+```
+docker compose up --build
+
+```
+
+##Next time run:
+
+```
+docker compose up
+
+```
+
+#Container Management Commands
+
+##To View Running Containers
+
+```
+docker ps
+```
+
+##To Stop Container
+
+```
+docker stop <container_id>
+```
+
+---
+
+#Image Management
+
+##To View Docker Images
+
+```
+docker images
+```
+
+##Delete Image
+
+```
+docker rmi -f <image_id>
+```
+
+---
+
+#Container Removal
+
+##To View All Containers
+
+```
+docker ps -a
+```
+
+##Remove Container
+
+```
+docker rm <container_id>
+```
+
+##Force Remove Running Container
+
+```
+docker rm -f <container_id>
+```
+
+---
+
+#Final Conclusion
+
+* Docker allows running scripts in **isolated environments**
+* You can **control CPU and memory usage**
+* Docker Compose simplifies **configuration management**
+* This setup is useful for:
+
+  * Testing system performance
+  * Running controlled stress workloads
+  * Avoiding system crashes
+
+---
+
+# Important NOTE:
+
+All files are given and can be modified as per user personal need.
+
+Always keep:
+
+* Dockerfile
+* requirements.txt
+* Script
+* docker-compose.yml
+
+In the **same directory** for smooth execution
+
+---
+
